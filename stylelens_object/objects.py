@@ -13,3 +13,12 @@ class Objects(DataBase):
 
     return str(r)
 
+  def update_object(self, object):
+    try:
+      r = self.objects.update_one({"name": object['name']},
+                                  {"$set": object})
+    except Exception as e:
+      print(e)
+      return None
+
+    return r.raw_result

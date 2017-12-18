@@ -12,7 +12,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "stylelens-object"
-VERSION = "0.0.1"
+VERSION = "0.0.4"
 # To install the library, run the following
 #
 # python setup.py install
@@ -20,8 +20,7 @@ VERSION = "0.0.1"
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 
-REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil", \
-            "tensorflow >= 1.3"]
+REQUIRES = ["pymongo"]
 
 setup(
     name=NAME,
