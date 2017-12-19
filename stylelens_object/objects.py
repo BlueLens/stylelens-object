@@ -7,7 +7,7 @@ class Objects(DataBase):
 
   def get_objects_with_null_index(self, offset=0, limit=50):
     try:
-      r = self.objects.find({"index":None})
+      r = self.objects.find({"index":None}).skip(offset).limit(limit)
     except Exception as e:
       print(e)
 
