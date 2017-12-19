@@ -5,9 +5,16 @@ class Objects(DataBase):
     super(Objects, self).__init__()
     self.objects = self.db.objects
 
-  def get_objects_with_null_index(self, offset=0, limit=50):
+  def get_objects_with_null_index(self, version_id=None, offset=0, limit=50):
+    query = {}
+
+    if version_id is None:
+      query = {"index":None, "feature": {"$ne":None}, "version_id": {"$ne":None}}
+    else:
+      query = {"index":None, "feature": {"$ne":None}, "version_id":version_id}
+
     try:
-      r = self.objects.find({"index":None, "feature": {"$ne":None}}).skip(offset).limit(limit)
+      r = self.objects.find(query).skip(offset).limit(limit)
     except Exception as e:
       print(e)
 
