@@ -5,8 +5,7 @@ from pprint import pprint
 api_instance = Objects()
 
 object = {}
-object['name'] = 'uniqusdfsadfssse_name'
-object['product_id'] = '123sdfs4'
+object['name'] = 'a3'
 
 try:
   # Added a new Object

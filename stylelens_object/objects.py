@@ -32,3 +32,13 @@ class Objects(DataBase):
       return None
 
     return r.raw_result
+
+  def update_objects(self, objects):
+    try:
+      bulk = self.objects.initialize_unordered_bulk_op()
+      for i in range(0, len(objects)):
+        bulk.find({'name': objects[i]['name']}).update({'$set': objects[i]})
+      r = bulk.execute()
+      print(r)
+    except Exception as e:
+      print(e)
