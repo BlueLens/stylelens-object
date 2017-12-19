@@ -5,7 +5,7 @@ from pprint import pprint
 api_instance = Objects()
 
 object = {}
-object['name'] = 'a3'
+object['name'] = 'a4'
 
 try:
   # Added a new Object
