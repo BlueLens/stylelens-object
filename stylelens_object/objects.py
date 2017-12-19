@@ -5,13 +5,23 @@ class Objects(DataBase):
     super().__init__()
     self.objects = self.db.objects
 
-  def add_object(self, object):
+  def get_objects_with_null_index(self, offset=0, limit=50):
     try:
-      r = self.objects.insert(object)
+      r = self.objects.find({"index":None})
     except Exception as e:
       print(e)
 
-    return str(r)
+    return list(r)
+
+  def add_object(self, object):
+    try:
+      r = self.objects.update_one({"name": object['name']},
+                                  {"$set": object},
+                                  upsert=True)
+    except Exception as e:
+      print(e)
+
+    return r.raw_result
 
   def update_object(self, object):
     try:
