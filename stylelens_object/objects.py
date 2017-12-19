@@ -2,7 +2,7 @@ from stylelens_object.database import DataBase
 
 class Objects(DataBase):
   def __init__(self):
-    super().__init__()
+    super(Objects, self).__init__()
     self.objects = self.db.objects
 
   def get_objects_with_null_index(self, offset=0, limit=50):
