@@ -31,6 +31,7 @@ class Objects(DataBase):
     return list(r)
 
   def add_object(self, object):
+    object_id = None
     try:
       r = self.objects.update_one({"name": object['name']},
                                   {"$set": object},
@@ -38,7 +39,10 @@ class Objects(DataBase):
     except Exception as e:
       print(e)
 
-    return r.raw_result
+    if 'upserted' in r.raw_result:
+      object_id = str(r.raw_result['upserted'])
+
+    return object_id
 
   def update_object(self, object):
     try:
