@@ -63,3 +63,17 @@ class Objects(DataBase):
       print(r)
     except Exception as e:
       print(e)
+
+  def reset_index(self, version_id=None):
+    query = {}
+    obj = {"index": None}
+
+    if version_id is None:
+      query = {"index":{"$ne":None}, "version_id": {"$ne":None}}
+    else:
+      query = {"index":{"$ne":None}, "version_id":version_id}
+    try:
+      r = self.objects.update_many(query, {"$set":obj})
+      print(r)
+    except Exception as e:
+      print(e)
