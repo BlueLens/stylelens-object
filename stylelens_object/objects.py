@@ -30,6 +30,22 @@ class Objects(DataBase):
 
     return list(r)
 
+  def get_size_objects(self, version_id, is_indexed=None):
+    query = {}
+    query['version_id'] = version_id
+
+    if is_indexed is True:
+      query['index'] = {"$exists":True}
+    elif is_indexed is False:
+      query['index'] = {"$exists":False}
+
+    try:
+      count = self.objects.find(query).count()
+    except Exception as e:
+      print(e)
+
+    return count
+
   def add_object(self, object):
     object_id = None
     try:
