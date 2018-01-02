@@ -30,6 +30,21 @@ class Objects(DataBase):
 
     return list(r)
 
+  def get_objects_with_null_feature(self, version_id=None, offset=0, limit=50):
+    query = {}
+
+    if version_id is not None:
+      query['version_id'] = version_id
+
+    query['feature'] = {'$exists':False}
+
+    try:
+      r = self.objects.find(query).skip(offset).limit(limit)
+    except Exception as e:
+      print(e)
+
+    return list(r)
+
   def get_objects(self, version_id,
                   is_indexed=None,
                   offset=0, limit=0):
