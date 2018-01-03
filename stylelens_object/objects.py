@@ -15,9 +15,13 @@ class Objects(DataBase):
 
     return r
 
-  def get_object_by_index(self, index):
+  def get_object_by_index(self, index, version_id):
+    query = {}
+
+    query['version_id'] = version_id
+    query['index'] = index
     try:
-      r = self.objects.find_one({"index": index})
+      r = self.objects.find_one({query})
     except Exception as e:
       print(e)
 
