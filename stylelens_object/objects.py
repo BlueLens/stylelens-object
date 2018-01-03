@@ -47,7 +47,7 @@ class Objects(DataBase):
 
   def get_objects(self, version_id,
                   is_indexed=None,
-                  offset=0, limit=0):
+                  offset=0, limit=10):
     query = {}
     query['version_id'] = version_id
 
@@ -58,6 +58,24 @@ class Objects(DataBase):
 
     try:
       r = self.objects.find(query).skip(offset).limit(limit)
+    except Exception as e:
+      print(e)
+
+    return list(r)
+
+  def get_object_ids(self, version_id,
+                  is_indexed=None,
+                  offset=0, limit=10):
+    query = {}
+    query['version_id'] = version_id
+
+    if is_indexed is False:
+      query['$or'] = [{'index':{'$exists':False}}, {'index':None}]
+    elif is_indexed is True:
+      query['index'] = {"$ne":None}
+
+    try:
+      r = self.objects.find(query, {'_id':True}).skip(offset).limit(limit)
     except Exception as e:
       print(e)
 
