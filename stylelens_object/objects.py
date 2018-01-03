@@ -15,6 +15,14 @@ class Objects(DataBase):
 
     return r
 
+  def get_object_by_index(self, index):
+    try:
+      r = self.objects.find_one({"index": index})
+    except Exception as e:
+      print(e)
+
+    return r
+
   def get_objects_with_null_index(self, version_id=None, offset=0, limit=50):
     query = {}
 
