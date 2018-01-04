@@ -7,9 +7,13 @@ class Objects(DataBase):
     super(Objects, self).__init__()
     self.objects = self.db.objects
 
-  def get_object(self, object_id):
+  def get_object(self, object_id, version_id):
+    query = {}
+
+    query['version_id'] = version_id
+    query['_id'] = ObjectId(object_id)
     try:
-      r = self.objects.find_one({"_id": ObjectId(object_id)})
+      r = self.objects.find_one(query)
     except Exception as e:
       print(e)
 
@@ -21,7 +25,7 @@ class Objects(DataBase):
     query['version_id'] = version_id
     query['index'] = index
     try:
-      r = self.objects.find_one({query})
+      r = self.objects.find_one(query)
     except Exception as e:
       print(e)
 
@@ -156,3 +160,13 @@ class Objects(DataBase):
       print(r)
     except Exception as e:
       print(e)
+
+  def delete_object(self, object_id):
+    query = {}
+    query['_id'] = ObjectId(object_id)
+    try:
+      r = self.objects.delete_one(query)
+    except Exception as e:
+      print(e)
+
+    return r.raw_result
