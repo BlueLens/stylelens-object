@@ -75,7 +75,7 @@ class Objects(DataBase):
 
     if image_indexed is False:
       query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}]
-    elif is_indexed is True:
+    elif image_indexed is True:
       query['image_indexed'] = True
 
     try:
@@ -86,8 +86,9 @@ class Objects(DataBase):
     return list(r)
 
   def get_object_ids(self, version_id,
-                  is_indexed=None,
-                  offset=0, limit=10):
+                      is_indexed=None,
+                      image_indexed=None,
+                      offset=0, limit=10):
     query = {}
     query['version_id'] = version_id
 
@@ -95,6 +96,11 @@ class Objects(DataBase):
       query['$or'] = [{'index':{'$exists':False}}, {'index':None}]
     elif is_indexed is True:
       query['index'] = {"$ne":None}
+
+    if image_indexed is False:
+      query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}]
+    elif image_indexed is True:
+      query['image_indexed'] = True
 
     try:
       r = self.objects.find(query, {'_id':True}).skip(offset).limit(limit)
