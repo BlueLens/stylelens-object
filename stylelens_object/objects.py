@@ -63,6 +63,7 @@ class Objects(DataBase):
 
   def get_objects(self, version_id,
                   is_indexed=None,
+                  image_indexed=None,
                   offset=0, limit=10):
     query = {}
     query['version_id'] = version_id
@@ -71,6 +72,11 @@ class Objects(DataBase):
       query['$or'] = [{'index':{'$exists':False}}, {'index':None}]
     elif is_indexed is True:
       query['index'] = {"$ne":None}
+
+    if image_indexed is False:
+      query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}]
+    elif is_indexed is True:
+      query['image_indexed'] = True
 
     try:
       r = self.objects.find(query).skip(offset).limit(limit)
@@ -97,7 +103,7 @@ class Objects(DataBase):
 
     return list(r)
 
-  def get_size_objects(self, version_id, is_indexed=None):
+  def get_size_objects(self, version_id, is_indexed=None, image_indexed=None):
     query = {}
     query['version_id'] = version_id
 
@@ -105,6 +111,11 @@ class Objects(DataBase):
       query['index'] = {"$exists":True}
     elif is_indexed is False:
       query['index'] = {"$exists":False}
+
+    if image_indexed is True:
+      query['image_indexed'] = True
+    elif image_indexed is False:
+      query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}]
 
     try:
       count = self.objects.find(query).count()
