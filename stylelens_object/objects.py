@@ -64,6 +64,7 @@ class Objects(DataBase):
   def get_objects(self, version_id,
                   is_indexed=None,
                   image_indexed=None,
+                  sort_key=None,
                   sort_order=None,
                   offset=0, limit=10):
     query = {}
@@ -79,12 +80,11 @@ class Objects(DataBase):
     elif image_indexed is True:
       query['image_indexed'] = True
 
-
     try:
-      if sort_order is None:
+      if sort_key is None:
         r = self.objects.find(query).skip(offset).limit(limit)
       else:
-        r = self.objects.find(query).sort(sort_order).skip(offset).limit(limit)
+        r = self.objects.find(query).sort(sort_key, sort_order).skip(offset).limit(limit)
     except Exception as e:
       print(e)
 
