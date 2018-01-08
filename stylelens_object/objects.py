@@ -64,6 +64,7 @@ class Objects(DataBase):
   def get_objects(self, version_id,
                   is_indexed=None,
                   image_indexed=None,
+                  sort_order=None,
                   offset=0, limit=10):
     query = {}
     query['version_id'] = version_id
@@ -78,8 +79,12 @@ class Objects(DataBase):
     elif image_indexed is True:
       query['image_indexed'] = True
 
+
     try:
-      r = self.objects.find(query).skip(offset).limit(limit)
+      if sort_order is None:
+        r = self.objects.find(query).skip(offset).limit(limit)
+      else:
+        r = self.objects.find(query).sort(sort_order).skip(offset).limit(limit)
     except Exception as e:
       print(e)
 
@@ -182,6 +187,20 @@ class Objects(DataBase):
       query = {"index":{"$ne":None}, "version_id": {"$ne":None}}
     else:
       query = {"index":{"$ne":None}, "version_id":version_id}
+    try:
+      r = self.objects.update_many(query, {"$set":obj})
+      print(r)
+    except Exception as e:
+      print(e)
+
+  def reset_image_index(self, version_id=None):
+    query = {}
+    obj = {"image_indexed": None}
+
+    if version_id is None:
+      query = {"image_indexed":{"$ne":None}, "version_id": {"$ne":None}}
+    else:
+      query = {"image_indexed":{"$ne":None}, "version_id":version_id}
     try:
       r = self.objects.update_many(query, {"$set":obj})
       print(r)
