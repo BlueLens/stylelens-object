@@ -7,11 +7,12 @@ class Objects(DataBase):
     super(Objects, self).__init__()
     self.objects = self.db.objects
 
-  def get_object(self, object_id, version_id):
+  def get_object(self, object_id, version_id=None):
     query = {}
 
-    query['version_id'] = version_id
     query['_id'] = ObjectId(object_id)
+    if version_id is None:
+      query['version_id'] = version_id
     try:
       r = self.objects.find_one(query)
     except Exception as e:
@@ -192,6 +193,7 @@ class Objects(DataBase):
       print(r)
     except Exception as e:
       print(e)
+    return r.raw_result
 
   def reset_image_index(self, version_id=None):
     query = {}
