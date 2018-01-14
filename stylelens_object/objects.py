@@ -68,6 +68,7 @@ class Objects(DataBase):
                   image_indexed=None,
                   sort_key=None,
                   sort_order=None,
+                  is_main=None,
                   offset=0, limit=10):
     query = {}
     query['version_id'] = version_id
@@ -81,6 +82,11 @@ class Objects(DataBase):
       query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}]
     elif image_indexed is True:
       query['image_indexed'] = True
+
+    if is_main is False:
+      query['is_main'] = False
+    elif is_main is True:
+      query['is_main'] = True
 
     try:
       if sort_key is None:

@@ -5,7 +5,9 @@ from pprint import pprint
 api_instance = Features()
 
 try:
-  api_response = api_instance.get_feature_by_object_id('5a5aebb9ca4ad59194b699b2')
+  offset = 0
+  limit = 10
+  api_response = api_instance.get_features(offset=offset, limit=limit)
   pprint(api_response)
 except Exception as e:
-  print("Exception when calling get_feature_by_object_id: %s\n" % e)
+  print("Exception when calling get_features: %s\n" % e)

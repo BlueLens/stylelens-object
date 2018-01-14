@@ -7,11 +7,8 @@ class Features(DataBaseFeature):
     super(Features, self).__init__()
     self.features = self.db.features
 
-  def add_feature(self, feature, version_id=None):
+  def add_feature(self, feature):
     query = {}
-
-    if version_id is not None:
-      query['version_id'] = version_id
 
     query['object_id'] = feature['object_id']
 
@@ -40,3 +37,15 @@ class Features(DataBaseFeature):
 
     return r
 
+  def get_features(self, version_id=None, offset=0, limit=50):
+    query = {}
+
+    if version_id is not None:
+      query['version_id'] = version_id
+
+    try:
+      r = self.features.find(query).skip(offset).limit(limit)
+    except Exception as e:
+      print(e)
+
+    return list(r)
