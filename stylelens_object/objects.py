@@ -11,8 +11,9 @@ class Objects(DataBase):
     query = {}
 
     query['_id'] = ObjectId(object_id)
-    if version_id is None:
+    if version_id is not None:
       query['version_id'] = version_id
+
     try:
       r = self.objects.find_one(query)
     except Exception as e:
