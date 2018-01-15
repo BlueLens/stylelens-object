@@ -177,7 +177,17 @@ class Objects(DataBase):
 
     return r.raw_result
 
-  def update_objects(self, objects):
+  def update_objects_by_id(self, objects):
+    try:
+      bulk = self.objects.initialize_unordered_bulk_op()
+      for i in range(0, len(objects)):
+        bulk.find({'_id': ObjectId(objects[i]['object_id'])}).update({'$set': objects[i]})
+      r = bulk.execute()
+      print(r)
+    except Exception as e:
+      print(e)
+
+  def update_objects_by_name(self, objects):
     try:
       bulk = self.objects.initialize_unordered_bulk_op()
       for i in range(0, len(objects)):
