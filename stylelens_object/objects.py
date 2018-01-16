@@ -95,6 +95,22 @@ class Objects(DataBase):
         r = self.objects.find(query).sort(sort_key, sort_order).skip(offset).limit(limit)
     except Exception as e:
       print(e)
+      return None
+
+    return list(r)
+
+  def get_objects_by_indexes(self, version_id,
+                             indexes,
+                             offset=0, limit=10):
+    query = {}
+    query['version_id'] = version_id
+    query['index'] = {'$in': indexes}
+
+    try:
+      r = self.objects.find(query).skip(offset).limit(limit)
+    except Exception as e:
+      print(e)
+      return None
 
     return list(r)
 
@@ -111,7 +127,7 @@ class Objects(DataBase):
       query['index'] = {"$ne":None}
 
     if image_indexed is False:
-      query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}]
+      query['$or'] = [{'image_indexed':{'$exists':False}}, {'image_indexed':False}, {'image_indexed':None}]
     elif image_indexed is True:
       query['image_indexed'] = True
 
@@ -119,6 +135,7 @@ class Objects(DataBase):
       r = self.objects.find(query, {'_id':True}).skip(offset).limit(limit)
     except Exception as e:
       print(e)
+      return None
 
     return list(r)
 
@@ -225,6 +242,7 @@ class Objects(DataBase):
       print(r)
     except Exception as e:
       print(e)
+    return r.raw_result
 
   def delete_object(self, object_id):
     query = {}

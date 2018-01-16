@@ -49,3 +49,13 @@ class Features(DataBaseFeature):
       print(e)
 
     return list(r)
+
+  def get_size_features(self):
+    query = {}
+
+    try:
+      count = self.features.find(query).count()
+    except Exception as e:
+      print(e)
+
+    return count
