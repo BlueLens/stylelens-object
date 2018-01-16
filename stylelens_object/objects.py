@@ -99,6 +99,27 @@ class Objects(DataBase):
 
     return list(r)
 
+  def get_objects_by_ids(self, ids,
+                         version_id=None,
+                         offset=0, limit=10):
+    query = {}
+    _ids = []
+    for id in ids:
+      _ids.append(ObjectId(id))
+
+    query['_id'] = {'$in': _ids}
+
+    if version_id is not None:
+      query['version_id'] = version_id
+
+    try:
+      r = self.objects.find(query).skip(offset).limit(limit)
+    except Exception as e:
+      print(e)
+      return None
+
+    return list(r)
+
   def get_objects_by_indexes(self, indexes,
                              version_id=None,
                              offset=0, limit=10):
