@@ -9,7 +9,7 @@ indexes = [1, 2]
 
 try:
   # Added a new Object
-  api_response = api_instance.get_objects_by_indexes(version_id=version_id, indexes=indexes)
+  api_response = api_instance.get_objects_by_indexes(indexes=indexes, version_id=version_id)
   pprint(api_response)
 except Exception as e:
   print("Exception when calling get_objects_by_indexes: %s\n" % e)

@@ -99,12 +99,14 @@ class Objects(DataBase):
 
     return list(r)
 
-  def get_objects_by_indexes(self, version_id,
-                             indexes,
+  def get_objects_by_indexes(self, indexes,
+                             version_id=None,
                              offset=0, limit=10):
     query = {}
-    query['version_id'] = version_id
     query['index'] = {'$in': indexes}
+
+    if version_id is not None:
+      query['version_id'] = version_id
 
     try:
       r = self.objects.find(query).skip(offset).limit(limit)
