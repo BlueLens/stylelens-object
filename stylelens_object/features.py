@@ -59,3 +59,12 @@ class Features(DataBaseFeature):
       print(e)
 
     return count
+
+  def delete_all(self):
+    query = {}
+    try:
+      r = self.features.delete_many(query)
+    except Exception as e:
+      print(e)
+
+    return r.raw_result
