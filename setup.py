@@ -12,7 +12,7 @@ import sys
 from setuptools import setup, find_packages
 
 NAME = "stylelens-object"
-VERSION = "0.0.41"
+VERSION = "0.0.43"
 # To install the library, run the following
 #
 # python setup.py install

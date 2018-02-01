@@ -241,12 +241,11 @@ class Objects(DataBase):
     query = {}
     obj = {"index": None}
 
-    if version_id is None:
-      query = {"index":{"$ne":None}, "version_id": {"$ne":None}}
-    else:
-      query = {"index":{"$ne":None}, "version_id":version_id}
+    if version_id is not None:
+      query['version_id'] = version_id
+
     try:
-      r = self.objects.update_many(query, {"$set":obj})
+      r = self.objects.update_many(query, {"$unset":{'index':1}})
       print(r)
     except Exception as e:
       print(e)
@@ -256,12 +255,11 @@ class Objects(DataBase):
     query = {}
     obj = {"image_indexed": None}
 
-    if version_id is None:
-      query = {"image_indexed":{"$ne":None}, "version_id": {"$ne":None}}
-    else:
-      query = {"image_indexed":{"$ne":None}, "version_id":version_id}
+    if version_id is not None:
+      query['version_id'] = version_id
+
     try:
-      r = self.objects.update_many(query, {"$set":obj})
+      r = self.objects.update_many(query, {"$unset":{'image_indexed':1}})
       print(r)
     except Exception as e:
       print(e)

@@ -4,7 +4,7 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = Objects()
 
-version_id = "5a4e3dc74dfd7d90b8885411"
+version_id = "5a70779890e0881036849e95"
 
 try:
   api_response = api_instance.get_size_objects(version_id=version_id)
